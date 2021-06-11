@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import tmdbAPI from '../axios'
+import Link from 'next/link'
 
 const Home = ({ data, apiKey}) => {
 
   const [searchQuery, setSearchQuery] = useState('')
   const [searchData, setSearchData] = useState(data)
 
-  console.log(searchData)
+  console.log(searchData.results)
 
   const searchHandler = async (e) => {
     setSearchQuery(e.target.value)
@@ -20,7 +21,25 @@ const Home = ({ data, apiKey}) => {
       <h4>Search for TV shows</h4>
       <input value={searchQuery} onChange={searchHandler} placeholder="search" />
       <button onClick={() => setSearchData(data)}>go</button>
-      <div>{JSON.stringify(searchData)}</div>
+      {searchData.results.slice(0, 10).map(show => {
+        return (
+          <div key={show.id}>
+            <Link passHref href={{
+              pathname: `/tv-shows/[id]`,
+              query: { 
+                id: show.id
+              }
+            }}>
+              <a>
+                <h3>{show.name}</h3>
+              </a>
+            </Link>
+            <p>{show.first_air_date}</p>
+            <img src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} />
+          </div>
+        )
+      })}
+     
     </>
   )
 }
@@ -29,8 +48,8 @@ export default Home
 
 export async function getServerSideProps() {
 
-  const res = await tmdbAPI.get(`/tv/1399/recommendations?api_key=${process.env.TMDB_API_KEY}`)
-  console.log(res)
+  const res = await tmdbAPI.get(`tv/popular?api_key=${process.env.TMDB_API_KEY}`)
+
   return {
     props: {
       data: res.data,
