@@ -2,6 +2,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import tmdbAPI from '../axios'
 import Link from 'next/link'
+import { 
+  Container, 
+  Card, 
+  Row, 
+  Col,
+  Badge,
+  Form,
+  Button 
+} from 'react-bootstrap'
+import styled from 'styled-components'
 
 const Home = ({ data, apiKey}) => {
 
@@ -18,27 +28,72 @@ const Home = ({ data, apiKey}) => {
 
   return (
     <>
-      <h4>Search for TV shows</h4>
-      <input value={searchQuery} onChange={searchHandler} placeholder="search" />
-      <button onClick={() => setSearchData(data)}>go</button>
-      {searchData.results.slice(0, 10).map(show => {
-        return (
-          <div key={show.id}>
-            <Link passHref href={{
-              pathname: `/tv-shows/[id]`,
-              query: { 
-                id: show.id
-              }
-            }}>
-              <a>
-                <h3>{show.name}</h3>
-              </a>
-            </Link>
-            <p>{show.first_air_date}</p>
-            <img src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} />
-          </div>
-        )
-      })}
+      <FormWrapper>
+        <Form.Control 
+          value={searchQuery} 
+          onChange={searchHandler} 
+          placeholder="search for tv shows" 
+          style={{
+            border: "none",
+            display: "inline-block",
+            width: "20rem"
+          }}  
+        />
+        <Button 
+          variant="outline-primary" 
+          onClick={() => setSearchData(data)}
+          style={{
+            margin: "2px"
+          }}
+          >
+            go
+          </Button>
+      </FormWrapper>
+      <Container fluid>
+        <Row xs={1} md={2} lg={3} xl={4}>
+          {searchData.results.slice(0, 10).map(show => {
+            return (
+              <Col key={show.id}>
+                  <Card 
+                    border="light"
+                    style={{ 
+                      width: '18rem',
+                      display: 'inline-flex'
+                    }}  
+                    bg="light"
+                  > 
+                    <Link passHref href={{
+                      pathname: `/tv-shows/[id]`,
+                      query: { 
+                        id: show.id
+                      }
+                    }}>
+                      <a>
+                        <Card.Title>{show.name}</Card.Title>
+                      </a>
+                    </Link>
+                    <Card.Subtitle  className="mb-2 text-muted">{show.first_air_date}</Card.Subtitle>
+                    <Link passHref href={{
+                      pathname: `/tv-shows/[id]`,
+                      query: { 
+                        id: show.id
+                      }
+                    }}>
+                      <a>
+                      <Card.Img 
+                        src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} 
+                      />
+                      </a>
+                    </Link>
+                    <span>
+                      <Badge pill bg="info">{show.vote_average}</Badge>
+                    </span>
+                  </Card>
+                </Col>
+              )
+            })}
+        </Row>
+      </Container>
      
     </>
   )
@@ -58,3 +113,8 @@ export async function getServerSideProps() {
   }
 
 }
+
+const FormWrapper = styled.div`
+  display: inline-block;
+  margin: 3rem;
+`
