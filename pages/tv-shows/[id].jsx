@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import tmdbAPI from '../../axios';
 import { formatDate } from '../../utils/formatDate';
+import Navigation from '../../components/navigation';
 import RaitingComponent from '../../components/tv-show-raiting';
 import TvShowSeasonShortInfo from '../../components/tv-show-season';
 
-const TvShowPage = ({ data }) => (
-  <>
-    <TvShowDetailsContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
-      <PosterContainer>
-        <TvShowPoster src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} />
-      </PosterContainer>
-      <InfoContainer>
-        <h1>{data.name}</h1>
-        <h3>{formatDate(data.first_air_date)}</h3>
-        <RaitingContainer>
-          <RaitingComponent>{data.vote_average}</RaitingComponent>
-        </RaitingContainer>
-        <TvShowText>{data.overview}</TvShowText>
-      </InfoContainer>
-    </TvShowDetailsContainer>
-    <TvShowSeasonShortInfo
-      seasons={data.seasons}
-      data={data}
-    />
-  </>
-);
+const TvShowPage = ({ data, apiKey }) => {
+  const [searchData, setSearchData] = useState(null);
+  const passSearchData = (navigationComponentData) => {
+    setSearchData(navigationComponentData);
+  };
+  return (
+    <>
+      <Navigation
+        apiKey={apiKey}
+        passSearchData={passSearchData}
+      />
+      {/* <div>{searchData.results}</div> */}
+      <TvShowDetailsContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
+        <PosterContainer>
+          <TvShowPoster src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} />
+        </PosterContainer>
+        <InfoContainer>
+          <h1>{data.name}</h1>
+          <h3>{formatDate(data.first_air_date)}</h3>
+          <RaitingContainer>
+            <RaitingComponent>{data.vote_average}</RaitingComponent>
+          </RaitingContainer>
+          <TvShowText>{data.overview}</TvShowText>
+        </InfoContainer>
+      </TvShowDetailsContainer>
+      <TvShowSeasonShortInfo
+        seasons={data.seasons}
+        data={data}
+      />
+    </>
+  );
+};
 
 export default TvShowPage;
 
@@ -34,6 +46,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       data: response.data,
+      apiKey: process.env.TMDB_API_KEY,
     },
   };
 }
@@ -47,20 +60,20 @@ const TvShowDetailsContainer = styled.div`
 
 const PosterContainer = styled.div`
   display: inline-block;
-  width: 20%;
+  width: 25%;
+  padding: 30px 0 30px 50px;
 `;
 
 const TvShowPoster = styled.img`
   width: 100%;
   height: 100%;
-  margin: 30px 0 30px 50px;
   border-radius: 5px;
 `;
 
 const InfoContainer = styled.div`
   display: inline-block;
   vertical-align: top;
-  width: 80%;
+  width: 75%;
   color: #ffffff;
   padding: 0px 80px;
 

@@ -1,33 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import tmdbAPI from '../../../../axios';
+import Navigation from '../../../../components/navigation';
+import Checkbox from '../../../../components/checkbox';
 
-const SeasonDetailsPage = ({ data }) => (
-  <>
-    <SeasonInfoContainer>
-      <ImageWrapper>
-        <SeasonImage src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} alt="season-poster" />
-      </ImageWrapper>
-      <SeasonOverviewContainer>
-        <SeasonTitle>{data.name}</SeasonTitle>
-        <SeasonText>{data.overview}</SeasonText>
-      </SeasonOverviewContainer>
-    </SeasonInfoContainer>
-    <SeasonSubtitle>{`Episodes: ${data.episodes.length}`}</SeasonSubtitle>
-    {data.episodes.map((episode) => (
-      <div key={episode.id}>
-        <h4>
-          {`Episode ${episode.episode_number}: `}
-          <EpisodeName>{episode.name}</EpisodeName>
-        </h4>
-        <EpisodeImageWrapper>
-          <EpisodeImage src={`https://image.tmdb.org/t/p/w500${episode.still_path}`} alt="episode-poster" />
-        </EpisodeImageWrapper>
-        <Button type="submit">watched</Button>
-      </div>
-    ))}
-  </>
-);
+const SeasonDetailsPage = ({ data, apiKey }) => {
+  const [searchData, setSearchData] = useState(null);
+  const passSearchData = (navigationComponentData) => {
+    setSearchData(navigationComponentData);
+  };
+  return (
+    <>
+      <Navigation
+        apiKey={apiKey}
+        passSearchData={passSearchData}
+      />
+      <SeasonInfoContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
+        <ImageWrapper>
+          <SeasonImage src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} alt="season-poster" />
+        </ImageWrapper>
+        <SeasonOverviewContainer>
+          <SeasonTitle>{data.name}</SeasonTitle>
+          <SeasonText>{data.overview}</SeasonText>
+        </SeasonOverviewContainer>
+      </SeasonInfoContainer>
+      {data.episodes.map((episode) => (
+        <EpisodesContainer key={episode.id}>
+          <SeasonSubtitle>{`Episodes: ${data.episodes.length}`}</SeasonSubtitle>
+          <h4>
+            {`Episode ${episode.episode_number}: `}
+            <EpisodeName>{episode.name}</EpisodeName>
+          </h4>
+          <EpisodeImageWrapper>
+            <EpisodeImage src={`https://image.tmdb.org/t/p/w500${episode.still_path}`} alt="episode-poster" />
+          </EpisodeImageWrapper>
+          <EpisodeOverviewWrapper>
+            <Checkbox />
+            <p>{episode.overview}</p>
+          </EpisodeOverviewWrapper>
+        </EpisodesContainer>
+      ))}
+    </>
+  );
+};
 
 export default SeasonDetailsPage;
 
@@ -36,19 +51,22 @@ export async function getServerSideProps(context) {
   return {
     props: {
       data: res.data,
+      apiKey: process.env.TMDB_API_KEY,
     },
   };
 }
 
 const SeasonInfoContainer = styled.div`
-  background-color: #049DBF;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url(${(props) => props.url});
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: #ffffff;
-
 `;
 
 const SeasonOverviewContainer = styled.div`
   display: inline-block;
-  width: 70%;
+  width: 75%;
   padding: 20px;
   vertical-align: top;
 `;
@@ -61,10 +79,14 @@ const SeasonSubtitle = styled.h3`
   color: #a09c9c;
 `;
 
+const EpisodesContainer = styled.div`
+  padding: 20px 50px;
+`;
+
 const ImageWrapper = styled.div`
   display: inline-block;
-  width: 30%;
-  padding: 20px;
+  width: 25%;
+  padding: 20px 50px;
 `;
 
 const SeasonImage = styled.img`
@@ -78,7 +100,10 @@ const SeasonText = styled.p`
 `;
 
 const EpisodeImageWrapper = styled.div`
+  display: inline-block;
   width: 20%;
+  padding: 20px;
+  padding-left: 0px;
 `;
 
 const EpisodeImage = styled.img`
@@ -87,10 +112,12 @@ const EpisodeImage = styled.img`
 `;
 
 const EpisodeName = styled.span`
-  color: #a09c9c;
+  color: #3EB595;
 `;
 
-const Button = styled.button`
-  padding: 10px 15px;
-  border-radius: 5px;  
+const EpisodeOverviewWrapper = styled.div`
+  display: inline-block;
+  width: 80%;
+  padding: 20px 60px;
+  vertical-align: top;
 `;

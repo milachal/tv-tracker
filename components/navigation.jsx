@@ -4,15 +4,13 @@ import styled from 'styled-components';
 import tmdbAPI from '../axios';
 import SearchBar from './searchbar';
 
-const Navigation = ({ apiKey, passSearchData, data }) => {
+const Navigation = ({ apiKey, passSearchData }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchData, setSearchData] = useState(data);
 
   const searchHandler = async (e) => {
     setSearchQuery(e.target.value);
     const res = await tmdbAPI.get(`/search/tv?api_key=${apiKey}&query=${e.target.value}`);
-    setSearchData(res.data);
-    passSearchData(searchData);
+    passSearchData(res.data);
   };
 
   return (
@@ -25,7 +23,6 @@ const Navigation = ({ apiKey, passSearchData, data }) => {
         value={searchQuery}
         onChange={searchHandler}
         placeholder="search for tv shows"
-        setSearchData={() => setSearchData(data)}
       />
     </NavBar>
   );
@@ -34,17 +31,17 @@ const Navigation = ({ apiKey, passSearchData, data }) => {
 export default Navigation;
 
 const NavBar = styled.nav`
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    background-color: #011C26;
-    width: 100%;
-    padding: 20px;
-    font-size: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #011C26;
+  width: 100%;
+  padding: 20px;
+  font-size: 20px;
 `;
 const StyledA = styled.a`
-    cursor: pointer;
-    &:hover{
-    color: #049DBF;
-  }
+  cursor: pointer;
+  &:hover{
+  color: #3EB595;
+}
 `;

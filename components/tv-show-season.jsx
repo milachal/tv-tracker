@@ -42,6 +42,6 @@ const TvShowSeasonShortInfo = ({ seasons, data }) => {
 export default TvShowSeasonShortInfo;
 
 const Container = styled.div`
-  margin: 20px 50px;
+  padding: 20px 50px;
   border-radius: 5px;
 `;

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const TabsBar = ({ onClick, tabTitle }) => (
   <TabsContainer>
@@ -16,10 +16,11 @@ const TabsContainer = styled.div`
 const Button = styled.button`
   border: none;
   color: #ffffff;
-  background-color: #049DBF;
+  background-color: #3EB595;
   padding: 20px 25px; 
   font-size: 20px;
   margin: 5px;
+  border-radius: 5px;
   &:hover {
     opacity: 0.8;
     background-color: #71b0bf;

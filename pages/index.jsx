@@ -11,14 +11,11 @@ const Home = ({ data, apiKey }) => {
   const passSearchData = (navigationComponentData) => {
     setSearchData(navigationComponentData);
   };
-
   return (
     <>
       <Navigation
         apiKey={apiKey}
         passSearchData={passSearchData}
-        data={data}
-
       />
       <ShowsContainer>
         {searchData.results.slice(0, 10).map((show) => (
@@ -76,7 +73,7 @@ const Image = styled.img`
 `;
 
 const ShowTitle = styled.h3`
-  color: #049DBF;
+  color: #3EB595;
   margin: 10px 0 0 0;
   &:hover {
     color: #03588C;
@@ -95,5 +92,5 @@ const ShowWrapper = styled.div`
 
 const ShowRaitingContainer = styled.div`
   float: right;
-  color: #049DBF;
+  color: #3EB595;
 `;

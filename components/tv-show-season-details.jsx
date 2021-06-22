@@ -24,7 +24,7 @@ const TvShowSeasonsDetails = ({
 export default TvShowSeasonsDetails;
 
 const Container = styled.div`
-margin-left: 5px;
+padding-left: 5px;
 `;
 
 const StyledLink = styled.a`
@@ -44,11 +44,6 @@ const ImageWrapper = styled.div`
   width: 20%;
   padding: 20px;
   padding-left: 0;
-  /* height: 400px;
-  background-color: #049DBF;
-  color: #fff;
-  padding: 0px 200px;
-  margin-right: 30px; */
 `;
 
 const TextWrapper = styled.div`
