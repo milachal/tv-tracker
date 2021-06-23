@@ -3,9 +3,11 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import tmdbAPI from '../axios';
 import SearchBar from './searchbar';
+import SearchBarSuggestion from './searchBarSuggestion';
 
-const Navigation = ({ apiKey, passSearchData }) => {
+const Navigation = ({ apiKey, passSearchData, searchResult }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  // const [searchResult, setSearchResult] = useState('');
 
   const searchHandler = async (e) => {
     setSearchQuery(e.target.value);
@@ -19,11 +21,14 @@ const Navigation = ({ apiKey, passSearchData }) => {
         <StyledA>Home</StyledA>
       </Link>
       <StyledA>About</StyledA>
-      <SearchBar
-        value={searchQuery}
-        onChange={searchHandler}
-        placeholder="search for tv shows"
-      />
+      <SearchBarContainer>
+        <SearchBar
+          value={searchQuery}
+          onChange={searchHandler}
+          placeholder="search for tv shows"
+        />
+        <SearchBarSuggestion searchResults={searchResult} />
+      </SearchBarContainer>
     </NavBar>
   );
 };
@@ -44,4 +49,10 @@ const StyledA = styled.a`
   &:hover{
   color: #3EB595;
 }
+`;
+
+const SearchBarContainer = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-around; */
 `;

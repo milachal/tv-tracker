@@ -7,7 +7,7 @@ import RaitingComponent from '../../components/tv-show-raiting';
 import TvShowSeasonShortInfo from '../../components/tv-show-season';
 
 const TvShowPage = ({ data, apiKey }) => {
-  const [searchData, setSearchData] = useState(null);
+  const [searchData, setSearchData] = useState('');
   const passSearchData = (navigationComponentData) => {
     setSearchData(navigationComponentData);
   };
@@ -16,6 +16,7 @@ const TvShowPage = ({ data, apiKey }) => {
       <Navigation
         apiKey={apiKey}
         passSearchData={passSearchData}
+        searchResult={searchData}
       />
       {/* <div>{searchData.results}</div> */}
       <TvShowDetailsContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
