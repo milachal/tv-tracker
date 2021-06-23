@@ -3,28 +3,25 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { formatDate } from '../utils/formatDate';
 
-const SearchBarSuggestion = ({ searchResults }) => {
-  console.log(searchResults);
-  return (
-    <Container>
-      {searchResults.results ? searchResults.results.slice(0, 5).map((result) => (
-        <div key={result.id}>
-          <PosterContainer>
-            <Poster src={`https://image.tmdb.org/t/p/w500${result.poster_path}`} alt="poster" />
-          </PosterContainer>
-          <TitleContainer>
-            <Link href={`/tv-shows/${result.id}`}>
-              <a>
-                <Title>{result.name}</Title>
-              </a>
-            </Link>
-            <Subtitle>{formatDate(result.first_air_date)}</Subtitle>
-          </TitleContainer>
-        </div>
-      )) : null }
-    </Container>
-  );
-};
+const SearchBarSuggestion = ({ searchResults }) => (
+  <Container>
+    {searchResults.results ? searchResults.results.slice(0, 5).map((result) => (
+      <div key={result.id}>
+        <PosterContainer>
+          <Poster src={`https://image.tmdb.org/t/p/w500${result.poster_path}`} alt="poster" />
+        </PosterContainer>
+        <TitleContainer>
+          <Link href={`/tv-shows/${result.id}`}>
+            <a>
+              <Title>{result.name}</Title>
+            </a>
+          </Link>
+          <Subtitle>{formatDate(result.first_air_date)}</Subtitle>
+        </TitleContainer>
+      </div>
+    )) : null }
+  </Container>
+);
 
 export default SearchBarSuggestion;
 
@@ -34,6 +31,7 @@ const Container = styled.div`
   border-radius: 5px;
   border: 1px solid #C9C9C9;
   background-color: #fff;
+  max-width: 400px;
 `;
 
 const TitleContainer = styled.div`

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const SearchBar = ({
   value, onChange, placeholder,
 }) => (
-  <InputContainer>
+  <>
     <Input
       value={value}
       onChange={onChange}
@@ -17,23 +17,27 @@ const SearchBar = ({
       </a>
     </Link> */}
 
-  </InputContainer>
+  </>
 );
 
 export default SearchBar;
 
-const InputContainer = styled.div`
-`;
+// const InputContainer = styled.div`
+// `;
 
 const Input = styled.input`
   position: relative;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 10px 10px;
   text-align: center;
+  width: 130px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
   &:focus {
-      outline: none;
-      color: #3EB595;
+    outline: none;
+    color: #3EB595;
+    width: 400px;
   }
 `;
 

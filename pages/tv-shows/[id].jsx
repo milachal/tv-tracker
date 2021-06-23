@@ -11,6 +11,7 @@ const TvShowPage = ({ data, apiKey }) => {
   const passSearchData = (navigationComponentData) => {
     setSearchData(navigationComponentData);
   };
+  console.log(data);
   return (
     <>
       <Navigation

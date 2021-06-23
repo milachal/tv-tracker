@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import tmdbAPI from '../axios';
@@ -7,11 +7,28 @@ import SearchBarSuggestion from './searchBarSuggestion';
 
 const Navigation = ({ apiKey, passSearchData, searchResult }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  // const [searchResult, setSearchResult] = useState('');
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const clickRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (clickRef.current && !clickRef.current.contains(e.target)) {
+        setShowSuggestion(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [clickRef]);
 
   const searchHandler = async (e) => {
     setSearchQuery(e.target.value);
+    if (!searchQuery) {
+      return;
+    }
     const res = await tmdbAPI.get(`/search/tv?api_key=${apiKey}&query=${e.target.value}`);
+    setShowSuggestion(true);
     passSearchData(res.data);
   };
 
@@ -21,13 +38,15 @@ const Navigation = ({ apiKey, passSearchData, searchResult }) => {
         <StyledA>Home</StyledA>
       </Link>
       <StyledA>About</StyledA>
-      <SearchBarContainer>
+      <SearchBarContainer ref={clickRef}>
         <SearchBar
           value={searchQuery}
           onChange={searchHandler}
           placeholder="search for tv shows"
         />
-        <SearchBarSuggestion searchResults={searchResult} />
+        {searchQuery && showSuggestion ? (
+          <SearchBarSuggestion searchResults={searchResult} />
+        ) : null}
       </SearchBarContainer>
     </NavBar>
   );
