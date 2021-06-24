@@ -5,15 +5,16 @@ import Navigation from '../../../../components/navigation';
 import Checkbox from '../../../../components/checkbox';
 
 const SeasonDetailsPage = ({ data, apiKey }) => {
-  const [searchData, setSearchData] = useState(null);
-  const passSearchData = (navigationComponentData) => {
-    setSearchData(navigationComponentData);
+  const [searchResults, setSearchResults] = useState(null);
+  const passSearchResultsData = (navigationComponentData) => {
+    setSearchResults(navigationComponentData);
   };
   return (
     <>
       <Navigation
         apiKey={apiKey}
-        passSearchData={passSearchData}
+        passSearchResultsData={passSearchResultsData}
+        searchResults={searchResults}
       />
       <SeasonInfoContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
         <ImageWrapper>
@@ -101,7 +102,7 @@ const SeasonText = styled.p`
 
 const EpisodeImageWrapper = styled.div`
   display: inline-block;
-  width: 20%;
+  width: 25%;
   padding: 20px;
   padding-left: 0px;
 `;
@@ -117,7 +118,7 @@ const EpisodeName = styled.span`
 
 const EpisodeOverviewWrapper = styled.div`
   display: inline-block;
-  width: 80%;
+  width: 75%;
   padding: 20px 60px;
   vertical-align: top;
 `;

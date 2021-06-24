@@ -5,7 +5,7 @@ import tmdbAPI from '../axios';
 import SearchBar from './searchbar';
 import SearchBarSuggestion from './searchBarSuggestion';
 
-const Navigation = ({ apiKey, passSearchData, searchResult }) => {
+const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestion, setShowSuggestion] = useState(false);
   const clickRef = useRef(null);
@@ -24,12 +24,12 @@ const Navigation = ({ apiKey, passSearchData, searchResult }) => {
 
   const searchHandler = async (e) => {
     setSearchQuery(e.target.value);
-    if (!searchQuery) {
+    if (!e.target.value) {
       return;
     }
     const res = await tmdbAPI.get(`/search/tv?api_key=${apiKey}&query=${e.target.value}`);
     setShowSuggestion(true);
-    passSearchData(res.data);
+    passSearchResultsData(res.data);
   };
 
   return (
@@ -45,7 +45,11 @@ const Navigation = ({ apiKey, passSearchData, searchResult }) => {
           placeholder="search for tv shows"
         />
         {searchQuery && showSuggestion ? (
-          <SearchBarSuggestion searchResults={searchResult} />
+          <SearchBarSuggestion
+            searchResults={searchResults}
+            keyword={searchQuery}
+            setShowSuggestion={setShowSuggestion}
+          />
         ) : null}
       </SearchBarContainer>
     </NavBar>

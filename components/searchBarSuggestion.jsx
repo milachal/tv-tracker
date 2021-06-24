@@ -3,23 +3,30 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { formatDate } from '../utils/formatDate';
 
-const SearchBarSuggestion = ({ searchResults }) => (
+const SearchBarSuggestion = ({ searchResults, keyword, setShowSuggestion }) => (
   <Container>
-    {searchResults.results ? searchResults.results.slice(0, 5).map((result) => (
-      <div key={result.id}>
-        <PosterContainer>
-          <Poster src={`https://image.tmdb.org/t/p/w500${result.poster_path}`} alt="poster" />
-        </PosterContainer>
-        <TitleContainer>
-          <Link href={`/tv-shows/${result.id}`}>
-            <a>
-              <Title>{result.name}</Title>
-            </a>
-          </Link>
-          <Subtitle>{formatDate(result.first_air_date)}</Subtitle>
-        </TitleContainer>
-      </div>
-    )) : null }
+    {searchResults && searchResults.results ? searchResults.results.slice(0, 5).map((result) => {
+      const imgSrc = result.poster_path ? `https://image.tmdb.org/t/p/w500${result.poster_path}` : 'https://via.placeholder.com/150';
+      return (
+        <div key={result.id}>
+          <PosterContainer>
+            <Poster src={imgSrc} alt="poster" />
+          </PosterContainer>
+          <TitleContainer>
+            <Link href={`/tv-shows/${result.id}`}>
+              <a onClick={() => setShowSuggestion(false)}>
+                <Title>{result.name}</Title>
+              </a>
+            </Link>
+            <Subtitle>{formatDate(result.first_air_date)}</Subtitle>
+          </TitleContainer>
+        </div>
+    )}) : null }
+    <Link href={`/tv-shows/search/${keyword}`}>
+      <a>
+        <h4>More results</h4>
+      </a>
+    </Link>
   </Container>
 );
 

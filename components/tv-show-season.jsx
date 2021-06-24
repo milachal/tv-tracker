@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { formatDate } from '../utils/formatDate.js';
 import TabsBar from './tabsBar';
@@ -6,7 +6,9 @@ import TvShowSeasonsDetails from './tv-show-season-details';
 
 const TvShowSeasonShortInfo = ({ seasons, data }) => {
   const [season, setSeason] = useState(seasons[0]);
-
+  useEffect(() => {
+    setSeason(seasons[0]);
+  }, [seasons]);
   return (
     <Container>
       <div>

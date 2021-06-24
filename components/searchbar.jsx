@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-// import Link from 'next/link';
 
 const SearchBar = ({
   value, onChange, placeholder,
@@ -11,12 +10,6 @@ const SearchBar = ({
       onChange={onChange}
       placeholder={placeholder}
     />
-    {/* <Link>
-      <a>
-        <Button>go</Button>
-      </a>
-    </Link> */}
-
   </>
 );
 

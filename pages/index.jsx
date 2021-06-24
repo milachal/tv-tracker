@@ -7,18 +7,20 @@ import Navigation from '../components/navigation';
 import RaitingComponent from '../components/tv-show-raiting';
 
 const Home = ({ data, apiKey }) => {
-  const [searchData, setSearchData] = useState(data);
-  const passSearchData = (navigationComponentData) => {
-    setSearchData(navigationComponentData);
+  const [searchResults, setSearchResults] = useState(data);
+  const passSearchResultsData = (navigationComponentData) => {
+    setSearchResults(navigationComponentData);
   };
+  console.log(searchResults);
   return (
     <>
       <Navigation
         apiKey={apiKey}
-        passSearchData={passSearchData}
+        passSearchResultsData={passSearchResultsData}
+        searchResults={searchResults}
       />
       <ShowsContainer>
-        {searchData.results.slice(0, 10).map((show) => (
+        {searchResults.results.slice(0, 10).map((show) => (
           <ShowWrapper key={show.id}>
             <ShowInfoContainer>
               <Link href={`/tv-shows/${show.id}`}>
