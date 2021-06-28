@@ -11,7 +11,6 @@ const Home = ({ data, apiKey }) => {
   const passSearchResultsData = (navigationComponentData) => {
     setSearchResults(navigationComponentData);
   };
-  console.log(searchResults);
   return (
     <>
       <Navigation
@@ -20,26 +19,29 @@ const Home = ({ data, apiKey }) => {
         searchResults={searchResults}
       />
       <ShowsContainer>
-        {searchResults.results.slice(0, 10).map((show) => (
-          <ShowWrapper key={show.id}>
-            <ShowInfoContainer>
-              <Link href={`/tv-shows/${show.id}`}>
-                <a>
-                  <ShowTitle>{show.name}</ShowTitle>
-                </a>
-              </Link>
-              <ShowSubtitle>{formatDate(show.first_air_date)}</ShowSubtitle>
-              <ShowRaitingContainer>
-                <RaitingComponent>{show.vote_average}</RaitingComponent>
-              </ShowRaitingContainer>
-            </ShowInfoContainer>
-            <div>
-              <Link href={`/tv-shows/${show.id}`}>
-                <a><Image src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} /></a>
-              </Link>
-            </div>
-          </ShowWrapper>
-        ))}
+        {searchResults.results.slice(0, 10).map((show) => {
+          const imgSrc = show.poster_path ? `https://image.tmdb.org/t/p/w500${show.poster_path}` : 'https://via.placeholder.com/150x200';
+          return (
+            <ShowWrapper key={show.id}>
+              <ShowInfoContainer>
+                <Link href={`/tv-shows/${show.id}`}>
+                  <a>
+                    <ShowTitle>{show.name}</ShowTitle>
+                  </a>
+                </Link>
+                <ShowSubtitle>{formatDate(show.first_air_date)}</ShowSubtitle>
+                <ShowRaitingContainer>
+                  <RaitingComponent>{show.vote_average}</RaitingComponent>
+                </ShowRaitingContainer>
+              </ShowInfoContainer>
+              <div>
+                <Link href={`/tv-shows/${show.id}`}>
+                  <a><Image src={imgSrc} /></a>
+                </Link>
+              </div>
+            </ShowWrapper>
+          );
+        })}
       </ShowsContainer>
 
     </>

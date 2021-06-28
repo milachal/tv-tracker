@@ -6,7 +6,7 @@ import { formatDate } from '../utils/formatDate';
 const SearchBarSuggestion = ({ searchResults, keyword, setShowSuggestion }) => (
   <Container>
     {searchResults && searchResults.results ? searchResults.results.slice(0, 5).map((result) => {
-      const imgSrc = result.poster_path ? `https://image.tmdb.org/t/p/w500${result.poster_path}` : 'https://via.placeholder.com/150';
+      const imgSrc = result.poster_path ? `https://image.tmdb.org/t/p/w500${result.poster_path}` : 'https://via.placeholder.com/150x200';
       return (
         <div key={result.id}>
           <PosterContainer>
@@ -21,11 +21,12 @@ const SearchBarSuggestion = ({ searchResults, keyword, setShowSuggestion }) => (
             <Subtitle>{formatDate(result.first_air_date)}</Subtitle>
           </TitleContainer>
         </div>
-    )}) : null }
+      );
+    }) : null }
     <Link href={`/tv-shows/search/${keyword}`}>
-      <a>
-        <h4>More results</h4>
-      </a>
+      <StyledLink>
+        <ResultsLink>More results</ResultsLink>
+      </StyledLink>
     </Link>
   </Container>
 );
@@ -68,4 +69,20 @@ const Poster = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 5px;
+`;
+
+const StyledLink = styled.a`
+  color: #3EB595;
+  cursor: pointer;
+  &:hover {
+    color: #696969;
+  }
+  &:active {
+    color: #1A1A1A;
+  }
+`;
+
+const ResultsLink = styled.h4`
+  margin: 10px;
+  text-align: center;
 `;

@@ -12,7 +12,7 @@ const TvShowSeasonsDetails = ({
     </Link>
     <p>{subtitle}</p>
     <ImageWrapper>
-      <Image src={`https://image.tmdb.org/t/p/w500${imgSrc}`} />
+      <Image src={imgSrc} />
     </ImageWrapper>
     <TextWrapper>
       <Text>{text}</Text>

@@ -34,7 +34,7 @@ const TvShowSeasonShortInfo = ({ seasons, data }) => {
           title={season.name}
           subtitle={`Premiered on ${formatDate(season.air_date)}`}
           text={season.overview}
-          imgSrc={season.poster_path}
+          imgSrc={season.poster_path ? `https://image.tmdb.org/t/p/w500${season.poster_path}` : 'https://via.placeholder.com/150x200'}
         />
       )}
     </Container>

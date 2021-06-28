@@ -11,7 +11,8 @@ const TvShowPage = ({ data, apiKey }) => {
   const passSearchResultsData = (navigationComponentData) => {
     setSearchResults(navigationComponentData);
   };
-
+  const imgSrcBig = data.poster_path ? `https://image.tmdb.org/t/p/w1280${data.poster_path}` : 'https://via.placeholder.com/350x200';
+  const imgSrc = data.poster_path ? `https://image.tmdb.org/t/p/w500${data.poster_path}` : 'https://via.placeholder.com/150x200';
   return (
     <>
       <Navigation
@@ -19,12 +20,12 @@ const TvShowPage = ({ data, apiKey }) => {
         passSearchResultsData={passSearchResultsData}
         searchResults={searchResults}
       />
-      <TvShowDetailsContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
+      <TvShowDetailsContainer url={imgSrcBig}>
         <PosterContainer>
-          <TvShowPoster src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} />
+          <TvShowPoster src={imgSrc} />
         </PosterContainer>
         <InfoContainer>
-          <h1>{data.name}</h1>
+          <Title>{data.name}</Title>
           <h3>{formatDate(data.first_air_date)}</h3>
           <RaitingContainer>
             <RaitingComponent>{data.vote_average}</RaitingComponent>
@@ -35,6 +36,7 @@ const TvShowPage = ({ data, apiKey }) => {
       <TvShowSeasonShortInfo
         seasons={data.seasons}
         data={data}
+        imgSrc={imgSrc}
       />
     </>
   );
@@ -78,6 +80,10 @@ const InfoContainer = styled.div`
   color: #ffffff;
   padding: 0px 80px;
 
+`;
+
+const Title = styled.h1`
+  color: #FFF447;
 `;
 
 const TvShowText = styled.p`
