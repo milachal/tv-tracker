@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import tmdbAPI from '../axios';
 import SearchBar from './searchbar';
 import SearchBarSuggestion from './searchBarSuggestion';
+import AuthButton from './authButton';
 
 const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -52,6 +53,7 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
           />
         ) : null}
       </SearchBarContainer>
+      <AuthButton />
     </NavBar>
   );
 };
