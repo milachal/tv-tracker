@@ -1,14 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
+import { useSession } from 'next-auth/client';
 import tmdbAPI from '../../../../axios';
 import Navigation from '../../../../components/navigation';
 import Checkbox from '../../../../components/checkbox';
 
-const SeasonDetailsPage = ({ data, apiKey }) => {
+const SeasonDetailsPage = ({ data, apiKey, tvShowId }) => {
   const [searchResults, setSearchResults] = useState(null);
+  const [watchedEpisodesArr, setWatchedEpisodesArr] = useState([]);
   const passSearchResultsData = (navigationComponentData) => {
     setSearchResults(navigationComponentData);
   };
+  const session = useSession();
+  const userEmail = session[0].user.email;
+  useEffect(() => {
+    const getEpisodes = async () => {
+      const episodes = await axios.post('http://localhost:3000/api/episodes',
+        {
+          userEmail,
+        });
+      setWatchedEpisodesArr(episodes.data.watchedEpisodes);
+    };
+    getEpisodes();
+  }, [userEmail]);
   return (
     <>
       <Navigation
@@ -36,7 +51,13 @@ const SeasonDetailsPage = ({ data, apiKey }) => {
             <EpisodeImage src={`https://image.tmdb.org/t/p/w500${episode.still_path}`} alt="episode-poster" />
           </EpisodeImageWrapper>
           <EpisodeOverviewWrapper>
-            <Checkbox />
+            <Checkbox
+              episodeId={episode.id}
+              seasonId={data.id}
+              seasonNum={data.season_number}
+              tvShowId={tvShowId}
+              watchedEpisodesArr={watchedEpisodesArr}
+            />
             <p>{episode.overview}</p>
           </EpisodeOverviewWrapper>
         </EpisodesContainer>
@@ -53,6 +74,7 @@ export async function getServerSideProps(context) {
     props: {
       data: res.data,
       apiKey: process.env.TMDB_API_KEY,
+      tvShowId: context.params.id,
     },
   };
 }

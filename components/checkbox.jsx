@@ -1,11 +1,47 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useSession } from 'next-auth/client';
 
-const Checkbox = () => (
-  <Label>
-    <Input type="checkbox" />
-    <CheckboxContainer>Watched</CheckboxContainer>
-  </Label>
-);
+const Checkbox = ({
+  episodeId, seasonId, seasonNum, tvShowId, watchedEpisodesArr,
+}) => {
+  const [isWatched, setIsWatched] = useState(false);
+  const [session] = useSession();
+  useEffect(() => {
+    if (watchedEpisodesArr.length > 0) {
+      watchedEpisodesArr.map((episode) => {
+        if (episode.includes(episodeId)) {
+          setIsWatched(true);
+        }
+        // eslint-disable-next-line
+        return;
+      });
+    }
+  });
+
+  const handleCheckBox = (e) => {
+    if (e.target.checked) {
+      setIsWatched(e.target.checked);
+      axios.post('/api/episodes', {
+        userEmail: session.user.email,
+        episodeId: `${tvShowId}-${seasonNum}-${seasonId}-${episodeId}`,
+      });
+    }
+    setIsWatched(e.target.checked);
+  };
+
+  return (
+    <Label>
+      <Input
+        type="checkbox"
+        checked={isWatched}
+        onChange={handleCheckBox}
+      />
+      <CheckboxContainer>Watched</CheckboxContainer>
+    </Label>
+  );
+};
 
 export default Checkbox;
 

@@ -14,9 +14,6 @@ const SearchBar = ({
 
 export default SearchBar;
 
-// const InputContainer = styled.div`
-// `;
-
 const Input = styled.input`
   position: relative;
   border: none;
@@ -32,16 +29,3 @@ const Input = styled.input`
     width: 400px;
   }
 `;
-
-// const Button = styled.div`
-//     background-color: #3EB595;
-//     border: none;
-//     border-radius: 5px;
-//     padding: 5px 10px;
-//     margin-left: 10px;
-//     text-transform: uppercase;
-//     color: #fff; 
-//     &:hover {
-//         opacity: 0.8;
-//     }
-// `;

@@ -39,7 +39,7 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
         <StyledA>Home</StyledA>
       </Link>
       <StyledA>About</StyledA>
-      <SearchBarContainer ref={clickRef}>
+      <div ref={clickRef}>
         <SearchBar
           value={searchQuery}
           onChange={searchHandler}
@@ -52,7 +52,7 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
             setShowSuggestion={setShowSuggestion}
           />
         ) : null}
-      </SearchBarContainer>
+      </div>
       <AuthButton />
     </NavBar>
   );
@@ -74,10 +74,4 @@ const StyledA = styled.a`
   &:hover{
   color: #3EB595;
 }
-`;
-
-const SearchBarContainer = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-around; */
 `;

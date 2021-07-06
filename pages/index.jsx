@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import tmdbAPI from '../axios';
-import { formatDate } from '../utils/formatDate';
+import formatDate from '../utils/formatDate';
 import Navigation from '../components/navigation';
 import RaitingComponent from '../components/tv-show-raiting';
 

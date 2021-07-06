@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { formatDate } from '../utils/formatDate';
+import formatDate from '../utils/formatDate';
 
 const SearchBarSuggestion = ({ searchResults, keyword, setShowSuggestion }) => (
   <Container>
@@ -13,6 +13,7 @@ const SearchBarSuggestion = ({ searchResults, keyword, setShowSuggestion }) => (
           </PosterContainer>
           <TitleContainer>
             <Link href={`/tv-shows/${result.id}`}>
+              {/* eslint-disable-next-line */}
               <a onClick={() => setShowSuggestion(false)}>
                 <Title>{result.name}</Title>
               </a>

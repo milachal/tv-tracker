@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { formatDate } from '../utils/formatDate.js';
+import formatDate from '../utils/formatDate';
 import TabsBar from './tabsBar';
 import TvShowSeasonsDetails from './tv-show-season-details';
 

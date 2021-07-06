@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import { signIn, signOut, useSession } from 'next-auth/client';
 
 const AuthButton = () => {
-  const [session, loading] = useSession();
+  const [session] = useSession();
   const [isVisible, setIsVisible] = useState(false);
-
   return (
     <>
       {!session ? (
