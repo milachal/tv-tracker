@@ -2,48 +2,22 @@ import WatchedEpisodes from '../../db/models/watchedEpisodes';
 import dbConnect from '../../db/mongodb';
 
 dbConnect();
+
 //  eslint-disable-next-line consistent-return
 const handler = async (req, res) => {
-  if (req.method === 'POST') {
-    try {
-      const userWatchedEpisodes = await WatchedEpisodes.findOneAndUpdate({
+  try {
+    const watchedEpisodesDoc = await WatchedEpisodes.findOne({ userEmail: req.body.userEmail });
+
+    if (!watchedEpisodesDoc) {
+      const newWatchedEpisodesDoc = new WatchedEpisodes({
         userEmail: req.body.userEmail,
-        $push: {
-          watchedEpisodes: req.body.episodeId,
-        },
-        new: true,
-        useFindAndModify: false,
+        watchedEpisodes: req.body.episodeId,
       });
-
-      if (!userWatchedEpisodes) {
-        const newUserWatchedEpisodes = new WatchedEpisodes({
-          userEmail: req.body.userEmail,
-          watchedEpisodes: req.body.episodeId,
-        });
-
-        await newUserWatchedEpisodes.save();
-        return res.status(201).send(newUserWatchedEpisodes);
-      }
-      res.status(200).send(userWatchedEpisodes);
-    } catch (e) {
-      res.status(500).send({ error: 'Something went wrong.' });
+      await newWatchedEpisodesDoc.save();
+      return res.status(201).send(newWatchedEpisodesDoc);
     }
-  }
 
-  if (req.method === 'GET') {
-    const { headers } = req;
-    const userEmail = headers['user-email'];
-    try {
-      const watchedEpisodesDoc = await WatchedEpisodes.findOne({ userEmail });
-      return res.status(200).send({ watchedEpisodes: watchedEpisodesDoc?.watchedEpisodes || [] });
-    } catch (e) {
-      res.status(500).send({ error: 'Something went wrong.' });
-    }
-  }
-
-  if (req.method === 'PATCH') {
-    try {
-      const watchedEpisodesDoc = await WatchedEpisodes.findOne({ userEmail: req.body.userEmail });
+    if (req.body.status === 'unwatched') {
       let unWatchedEpisodeId = '';
       const reducedWatchedEpisodes = watchedEpisodesDoc.watchedEpisodes
         .reduce((acc, currEpisode) => {
@@ -53,12 +27,20 @@ const handler = async (req, res) => {
           unWatchedEpisodeId = currEpisode;
           return acc;
         }, []);
+
       watchedEpisodesDoc.watchedEpisodes = reducedWatchedEpisodes;
       await watchedEpisodesDoc.save();
-      res.status(200).send(unWatchedEpisodeId);
-    } catch (e) {
-      res.status(500).send({ error: 'Something went wrong' });
+      return res.status(200).send(unWatchedEpisodeId);
     }
+
+    const watchedEpisodesArr = watchedEpisodesDoc.watchedEpisodes;
+
+    watchedEpisodesArr.push(req.body.episodeId);
+    watchedEpisodesDoc.watchedEpisodes = watchedEpisodesArr;
+    await watchedEpisodesDoc.save();
+    return res.status(200).send(watchedEpisodesDoc);
+  } catch (e) {
+    res.status(500).send({ error: 'Something went wrong.' });
   }
 };
 

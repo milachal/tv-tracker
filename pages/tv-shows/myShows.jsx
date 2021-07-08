@@ -18,10 +18,10 @@ const MyShows = ({ apiKey, showsData }) => {
         searchResults={searchResults}
       />
       <ShowsContainer>
-        {showsData.map((show) => {
-          const imgSrc = show.data.poster_path ? `https://image.tmdb.org/t/p/w500${show.data.poster_path}` : 'https://via.placeholder.com/150x200';
+        {showsData.map((show, index) => {
+          const imgSrc = show.posterPath ? `https://image.tmdb.org/t/p/w500/${show.posterPath}` : 'https://via.placeholder.com/150x200';
           return (
-            <ShowWrapper key={show.data.id}>
+            <ShowWrapper key={index}>
               <Link href={`/tv-shows/${show.data.id}`}>
                 <a>
                   <ShowTitle>{show.data.name}</ShowTitle>
@@ -47,7 +47,7 @@ export default MyShows;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  const result = await episodesAPI.get('/episodes', {
+  const result = await episodesAPI.get('/get-episodes', {
     headers: {
       'User-Email': `${session.user.email}`,
     },
@@ -58,13 +58,24 @@ export async function getServerSideProps(context) {
       const tvShowId = episode.split('-')[0];
       const seasonNum = episode.split('-')[1];
       const seasonId = episode.split('-')[2];
-      return JSON.stringify({ tvShowId, seasonNum, seasonId });
+      const posterPath = episode.split('-')[4];
+      return JSON.stringify({
+        tvShowId,
+        seasonNum,
+        seasonId,
+        posterPath,
+      });
     });
   const uniqueShowsIds = Array.from(new Set(showsIds), JSON.parse);
 
   const showsData = await Promise.all(uniqueShowsIds.map(async (show) => {
     const res = await tmdbAPI.get(`tv/${show.tvShowId}?api_key=${process.env.TMDB_API_KEY}`);
-    return { data: res.data, seasonNum: show.seasonNum, seasonId: show.seasonId };
+    return {
+      data: res.data,
+      seasonNum: show.seasonNum,
+      seasonId: show.seasonId,
+      posterPath: show.posterPath,
+    };
   }));
 
   return {

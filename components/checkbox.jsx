@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { episodesAPI } from '../axios';
 
 const Checkbox = ({
-  episodeId, seasonId, seasonNum, tvShowId, watchedEpisodesArr, userEmail,
+  episodeId, seasonId, seasonNum, tvShowId, watchedEpisodesArr, userEmail, posterPath
 }) => {
   const [isWatched, setIsWatched] = useState(false);
   useEffect(() => {
@@ -21,15 +21,16 @@ const Checkbox = ({
   const handleCheckBox = async (e) => {
     if (e.target.checked) {
       setIsWatched(e.target.checked);
-      await episodesAPI.post('/episodes', {
+      await episodesAPI.patch('/episodes', {
         userEmail,
-        episodeId: `${tvShowId}-${seasonNum}-${seasonId}-${episodeId}`,
+        episodeId: `${tvShowId}-${seasonNum}-${seasonId}-${episodeId}-${posterPath}`,
       });
     } else {
       setIsWatched(e.target.checked);
       await episodesAPI.patch('/episodes', {
         userEmail,
-        episodeId: `${tvShowId}-${seasonNum}-${seasonId}-${episodeId}`,
+        episodeId: `${tvShowId}-${seasonNum}-${seasonId}-${episodeId}-${posterPath}`,
+        status: 'unwatched',
       });
     }
   };

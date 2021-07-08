@@ -12,6 +12,7 @@ const SeasonDetailsPage = ({
   const passSearchResultsData = (navigationComponentData) => {
     setSearchResults(navigationComponentData);
   };
+  console.log(data)
   return (
     <>
       <Navigation
@@ -19,9 +20,9 @@ const SeasonDetailsPage = ({
         passSearchResultsData={passSearchResultsData}
         searchResults={searchResults}
       />
-      <SeasonInfoContainer url={`https://image.tmdb.org/t/p/w1280${data.poster_path}`}>
+      <SeasonInfoContainer url={`https://image.tmdb.org/t/p/w1280/${data.poster_path}`}>
         <ImageWrapper>
-          <SeasonImage src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} alt="season-poster" />
+          <SeasonImage src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} alt="season-poster" />
         </ImageWrapper>
         <SeasonOverviewContainer>
           <SeasonTitle>{data.name}</SeasonTitle>
@@ -46,6 +47,7 @@ const SeasonDetailsPage = ({
               tvShowId={tvShowId}
               watchedEpisodesArr={watchedEpisodesArr}
               userEmail={userEmail}
+              posterPath={data.poster_path}
             />
             <p>{episode.overview}</p>
           </EpisodeOverviewWrapper>
@@ -60,7 +62,7 @@ export default SeasonDetailsPage;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   const res = await tmdbAPI.get(`tv/${context.params.id}/season/${context.params.season}?api_key=${process.env.TMDB_API_KEY}`);
-  const result = await episodesAPI.get('/episodes', {
+  const result = await episodesAPI.get('/get-episodes', {
     headers: {
       'User-Email': `${session.user.email}`,
     },
