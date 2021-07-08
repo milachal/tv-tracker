@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import tmdbAPI from '../../axios';
+import { tmdbAPI } from '../../axios';
 import formatDate from '../../utils/formatDate';
 import Navigation from '../../components/navigation';
 import RaitingComponent from '../../components/tv-show-raiting';

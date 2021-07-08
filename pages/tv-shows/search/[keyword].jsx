@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import tmdbAPI from '../../../axios';
+import { tmdbAPI } from '../../../axios';
 import formatDate from '../../../utils/formatDate';
 import Navigation from '../../../components/navigation';
 

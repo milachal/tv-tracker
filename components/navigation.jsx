@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import tmdbAPI from '../axios';
+import { tmdbAPI } from '../axios';
 import SearchBar from './searchbar';
 import SearchBarSuggestion from './searchBarSuggestion';
 import AuthButton from './authButton';
@@ -53,7 +53,12 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
           />
         ) : null}
       </div>
-      <AuthButton />
+      <div>
+        <Link href="/tv-shows/myShows">
+          <StyledA>My tv shows</StyledA>
+        </Link>
+        <AuthButton />
+      </div>
     </NavBar>
   );
 };

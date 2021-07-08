@@ -4,4 +4,8 @@ const tmdbAPI = axios.create({
   baseURL: 'https://api.themoviedb.org/3/',
 });
 
-export default tmdbAPI;
+const episodesAPI = axios.create({
+  baseURL: 'http://localhost:3000/api/',
+});
+
+export { tmdbAPI, episodesAPI };

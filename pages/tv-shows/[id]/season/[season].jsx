@@ -1,29 +1,17 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { useSession } from 'next-auth/client';
-import tmdbAPI from '../../../../axios';
+import { getSession } from 'next-auth/client';
+import { tmdbAPI, episodesAPI } from '../../../../axios';
 import Navigation from '../../../../components/navigation';
 import Checkbox from '../../../../components/checkbox';
 
-const SeasonDetailsPage = ({ data, apiKey, tvShowId }) => {
+const SeasonDetailsPage = ({
+  data, apiKey, tvShowId, userEmail, watchedEpisodesArr,
+}) => {
   const [searchResults, setSearchResults] = useState(null);
-  const [watchedEpisodesArr, setWatchedEpisodesArr] = useState([]);
   const passSearchResultsData = (navigationComponentData) => {
     setSearchResults(navigationComponentData);
   };
-  const session = useSession();
-  const userEmail = session[0].user.email;
-  useEffect(() => {
-    const getEpisodes = async () => {
-      const episodes = await axios.post('http://localhost:3000/api/episodes',
-        {
-          userEmail,
-        });
-      setWatchedEpisodesArr(episodes.data.watchedEpisodes);
-    };
-    getEpisodes();
-  }, [userEmail]);
   return (
     <>
       <Navigation
@@ -57,6 +45,7 @@ const SeasonDetailsPage = ({ data, apiKey, tvShowId }) => {
               seasonNum={data.season_number}
               tvShowId={tvShowId}
               watchedEpisodesArr={watchedEpisodesArr}
+              userEmail={userEmail}
             />
             <p>{episode.overview}</p>
           </EpisodeOverviewWrapper>
@@ -69,12 +58,21 @@ const SeasonDetailsPage = ({ data, apiKey, tvShowId }) => {
 export default SeasonDetailsPage;
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
   const res = await tmdbAPI.get(`tv/${context.params.id}/season/${context.params.season}?api_key=${process.env.TMDB_API_KEY}`);
+  const result = await episodesAPI.get('/episodes', {
+    headers: {
+      'User-Email': `${session.user.email}`,
+    },
+  });
+
   return {
     props: {
       data: res.data,
       apiKey: process.env.TMDB_API_KEY,
       tvShowId: context.params.id,
+      userEmail: session.user.email,
+      watchedEpisodesArr: result.data.watchedEpisodes,
     },
   };
 }

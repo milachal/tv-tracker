@@ -29,6 +29,9 @@ padding-left: 5px;
 const StyledLink = styled.a`
   color: #011C26;
   cursor: pointer;
+  &:hover {
+    color: #3EB595;
+  }
 `;
 
 const Image = styled.img`
