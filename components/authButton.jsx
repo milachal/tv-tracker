@@ -36,6 +36,7 @@ export default AuthButton;
 const Container = styled.div`
   display: inline-flex;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 const Button = styled.button`

@@ -38,7 +38,9 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
       <Link href="/">
         <StyledA>Home</StyledA>
       </Link>
-      <StyledA>About</StyledA>
+      <Link href="/tv-shows/myShows">
+        <StyledA>My TV Shows</StyledA>
+      </Link>
       <div ref={clickRef}>
         <SearchBar
           value={searchQuery}
@@ -53,12 +55,7 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
           />
         ) : null}
       </div>
-      <div>
-        <Link href="/tv-shows/myShows">
-          <StyledA>My tv shows</StyledA>
-        </Link>
-        <AuthButton />
-      </div>
+      <AuthButton />
     </NavBar>
   );
 };
@@ -67,15 +64,17 @@ export default Navigation;
 
 const NavBar = styled.nav`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   background-color: #011C26;
   width: 100%;
   padding: 20px;
   font-size: 20px;
 `;
+
 const StyledA = styled.a`
   cursor: pointer;
+  padding-left: 3rem;
   &:hover{
   color: #3EB595;
 }
