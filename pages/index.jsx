@@ -17,6 +17,7 @@ const Home = ({ data, apiKey }) => {
         apiKey={apiKey}
         passSearchResultsData={passSearchResultsData}
         searchResults={searchResults}
+        disableSearchBarSuggestions
       />
       <ShowsContainer>
         {searchResults.results.slice(0, 10).map((show) => {

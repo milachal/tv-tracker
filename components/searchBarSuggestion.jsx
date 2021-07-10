@@ -24,9 +24,9 @@ const SearchBarSuggestion = ({ searchResults, keyword, setShowSuggestion }) => (
       );
     }) : null }
     <Link href={`/tv-shows/search/${keyword}`}>
-      <StyledLink>
+      <a href={`/tv-shows/search/${keyword}`}>
         <ResultsLink>More results</ResultsLink>
-      </StyledLink>
+      </a>
     </Link>
   </Container>
 );
@@ -71,18 +71,15 @@ const Poster = styled.img`
   border-radius: 5px;
 `;
 
-const StyledLink = styled.a`
+const ResultsLink = styled.h4`
   color: #3EB595;
   cursor: pointer;
+  margin: 10px;
+  text-align: center;
   &:hover {
     color: #696969;
   }
   &:active {
     color: #1A1A1A;
   }
-`;
-
-const ResultsLink = styled.h4`
-  margin: 10px;
-  text-align: center;
 `;

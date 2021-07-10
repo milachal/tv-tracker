@@ -3,7 +3,6 @@ import dbConnect from '../../db/mongodb';
 
 dbConnect();
 
-//  eslint-disable-next-line consistent-return
 const handler = async (req, res) => {
   try {
     const watchedEpisodesDoc = await WatchedEpisodes.findOne({ userEmail: req.body.userEmail });

@@ -12,7 +12,6 @@ const SeasonDetailsPage = ({
   const passSearchResultsData = (navigationComponentData) => {
     setSearchResults(navigationComponentData);
   };
-  console.log(data)
   return (
     <>
       <Navigation

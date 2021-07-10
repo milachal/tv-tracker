@@ -6,7 +6,9 @@ import SearchBar from './searchbar';
 import SearchBarSuggestion from './searchBarSuggestion';
 import AuthButton from './authButton';
 
-const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
+const Navigation = ({
+  apiKey, passSearchResultsData, searchResults, disableSearchBarSuggestions,
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestion, setShowSuggestion] = useState(false);
   const clickRef = useRef(null);
@@ -36,10 +38,10 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
   return (
     <NavBar>
       <Link href="/">
-        <StyledA>Home</StyledA>
+        <a href="/"><StyledLink>Home</StyledLink></a>
       </Link>
       <Link href="/tv-shows/myShows">
-        <StyledA>My TV Shows</StyledA>
+        <a><StyledLink>My TV Shows</StyledLink></a>
       </Link>
       <div ref={clickRef}>
         <SearchBar
@@ -47,7 +49,7 @@ const Navigation = ({ apiKey, passSearchResultsData, searchResults }) => {
           onChange={searchHandler}
           placeholder="search for tv shows"
         />
-        {searchQuery && showSuggestion ? (
+        {!disableSearchBarSuggestions && searchQuery && showSuggestion ? (
           <SearchBarSuggestion
             searchResults={searchResults}
             keyword={searchQuery}
@@ -72,7 +74,7 @@ const NavBar = styled.nav`
   font-size: 20px;
 `;
 
-const StyledA = styled.a`
+const StyledLink = styled.span`
   cursor: pointer;
   padding-left: 3rem;
   &:hover{

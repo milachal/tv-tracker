@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { episodesAPI } from '../axios';
 
 const Checkbox = ({
-  episodeId, seasonId, seasonNum, tvShowId, watchedEpisodesArr, userEmail, posterPath
+  episodeId, seasonId, seasonNum, tvShowId, watchedEpisodesArr, userEmail, posterPath,
 }) => {
   const [isWatched, setIsWatched] = useState(false);
   useEffect(() => {
@@ -76,4 +76,5 @@ const Input = styled.input`
 
 const CheckboxContainer = styled.label`
   padding: 0.5rem 0.25rem;
+  cursor: pointer;
 `;

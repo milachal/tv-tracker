@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 const formatDate = (date) => {
   if (date) {
     const fullDate = new Date(date);

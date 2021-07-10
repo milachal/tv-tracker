@@ -18,10 +18,10 @@ const MyShows = ({ apiKey, showsData }) => {
         searchResults={searchResults}
       />
       <ShowsContainer>
-        {showsData.map((show, index) => {
+        {showsData.map((show) => {
           const imgSrc = show.posterPath ? `https://image.tmdb.org/t/p/w500/${show.posterPath}` : 'https://via.placeholder.com/150x200';
           return (
-            <ShowWrapper key={index}>
+            <ShowWrapper key={show.seasonId}>
               <Link href={`/tv-shows/${show.data.id}`}>
                 <a>
                   <ShowTitle>{show.data.name}</ShowTitle>
