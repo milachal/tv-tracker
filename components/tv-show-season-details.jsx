@@ -8,7 +8,7 @@ const TvShowSeasonsDetails = ({
   <Container>
     <Link href={`/tv-shows/${dataId}/season/${seasonNumber}`}>
       <StyledLink href={`/tv-shows/${dataId}/season/${seasonNumber}`}>
-        <h2>{title}</h2>
+        <h2 data-cy={`season-link-${seasonNumber}`}>{title}</h2>
       </StyledLink>
     </Link>
     <p>{subtitle}</p>

@@ -23,6 +23,7 @@ const TvShowSeasonShortInfo = ({ seasons, data }) => {
                 }
               }}
               tabTitle={s.name}
+              tabId={s.name.replace(/ +/g, '')}
             />
           </span>
         ))}

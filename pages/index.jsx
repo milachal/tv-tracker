@@ -26,7 +26,7 @@ const Home = ({ data, apiKey }) => {
             <ShowWrapper key={show.id}>
               <ShowInfoContainer>
                 <Link href={`/tv-shows/${show.id}`}>
-                  <a>
+                  <a data-cy={`tv-show-link-${show.id}`}>
                     <ShowTitle>{show.name}</ShowTitle>
                   </a>
                 </Link>

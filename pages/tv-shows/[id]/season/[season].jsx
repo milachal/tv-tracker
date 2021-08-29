@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { getSession } from 'next-auth/client';
+import Link from 'next/link';
 import { tmdbAPI, episodesAPI } from '../../../../axios';
 import Navigation from '../../../../components/navigation';
 import Checkbox from '../../../../components/checkbox';
@@ -26,6 +27,9 @@ const SeasonDetailsPage = ({
         <SeasonOverviewContainer>
           <SeasonTitle>{data.name}</SeasonTitle>
           <SeasonText>{data.overview}</SeasonText>
+          <Link href={`/tv-shows/${tvShowId}`}>
+            <a><StyledLink>&#8592; Return to show page</StyledLink></a>
+          </Link>
         </SeasonOverviewContainer>
       </SeasonInfoContainer>
       {data.episodes.map((episode) => (
@@ -61,9 +65,10 @@ export default SeasonDetailsPage;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   const res = await tmdbAPI.get(`tv/${context.params.id}/season/${context.params.season}?api_key=${process.env.TMDB_API_KEY}`);
+  const userEmail = session?.user?.email ?? 'notLoggedIn';
   const result = await episodesAPI.get('/get-episodes', {
     headers: {
-      'User-Email': `${session.user.email}`,
+      'User-Email': userEmail,
     },
   });
 
@@ -72,7 +77,7 @@ export async function getServerSideProps(context) {
       data: res.data,
       apiKey: process.env.TMDB_API_KEY,
       tvShowId: context.params.id,
-      userEmail: session.user.email,
+      userEmail,
       watchedEpisodesArr: result.data.watchedEpisodes,
     },
   };
@@ -99,6 +104,13 @@ const SeasonTitle = styled.h1`
 
 const SeasonSubtitle = styled.h3`
   color: #a09c9c;
+`;
+
+const StyledLink = styled.span`
+  color: #FFF447;
+  &:hover {
+    color: #3EB595;
+  }
 `;
 
 const EpisodesContainer = styled.div`

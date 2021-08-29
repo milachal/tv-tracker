@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
-const TabsBar = ({ onClick, tabTitle }) => (
+const TabsBar = ({ onClick, tabTitle, tabId }) => (
   <TabsContainer>
-    <Button onClick={onClick}>{tabTitle}</Button>
+    <Button
+      onClick={onClick}
+      data-cy={`season-link-${tabId}`}
+    >
+      {tabTitle}
+    </Button>
   </TabsContainer>
 );
 

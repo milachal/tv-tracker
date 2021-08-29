@@ -8,7 +8,13 @@ const AuthButton = () => {
   return (
     <>
       {!session ? (
-        <Button onClick={() => signIn()}>Sign in</Button>
+        <Button
+          onClick={() => signIn()}
+          data-cy="login-button"
+          href="http://localhost:3000/api/auth/signin/google"
+        >
+          Sign in
+        </Button>
       ) : (
         <Container>
           <div>
@@ -39,11 +45,12 @@ const Container = styled.div`
   justify-content: flex-end;
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   padding: 10px 15px;
   background-color: #FFF447;
   font-weight: bold;
   text-transform: uppercase;
+  font-size: 15px;
   color: #696969;
   border-radius: 5px;
   cursor: pointer; 

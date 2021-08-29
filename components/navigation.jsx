@@ -70,7 +70,7 @@ const NavBar = styled.nav`
   align-items: center;
   background-color: #011C26;
   width: 100%;
-  padding: 20px;
+  padding: 20px 40px;
   font-size: 20px;
 `;
 

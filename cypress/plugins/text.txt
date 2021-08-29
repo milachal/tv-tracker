@@ -1,0 +1,11 @@
+/// <reference types="cypress" />
+
+dotenv.config()
+
+export default (on, config) => {
+  config.env.googlerefreshToken = process.env.GOOGLE_REFRESH_TOKEN
+  config.env.googleClientId = process.env.GOOGLE_CLIENT_ID
+  config.env.googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
+
+  return config
+}

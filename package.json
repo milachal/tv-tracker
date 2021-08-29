@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext js,jsx",
-    "lint:fix": "eslint --fix --ext .js,.jsx ."
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -21,6 +22,10 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
+    "@testing-library/cypress": "^7.0.6",
+    "cypress": "^7.7.0",
+    "cypress-social-logins": "^1.11.3",
+    "dotenv": "^10.0.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-plugin-import": "^2.22.1",

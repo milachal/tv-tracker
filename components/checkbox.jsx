@@ -42,6 +42,7 @@ const Checkbox = ({
         id={episodeId}
         checked={isWatched}
         onChange={handleCheckBox}
+        data-cy={`check-watched-episode-${episodeId}`}
       />
       <CheckboxContainer htmlFor={episodeId}>Watched</CheckboxContainer>
     </Label>

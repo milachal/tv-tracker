@@ -8,6 +8,7 @@ const SearchBar = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
+      data-cy="searchBar"
     />
   </>
 );
