@@ -5,7 +5,7 @@ import { signIn, signOut, useSession } from 'next-auth/client';
 const AuthButton = () => {
   const [session] = useSession();
   const [isVisible, setIsVisible] = useState(false);
-  const url = 'http://localhost:3000/api/auth/signin/google' || 'https://tv-tracker-orpin.vercel.app/api/auth/callback/google';
+  const url = process.env.NODE_ENV === 'production' ? 'https://tv-tracker-orpin.vercel.app/api/auth/callback/google' : 'http://localhost:3000/api/auth/signin/google';
   return (
     <>
       {!session ? (
