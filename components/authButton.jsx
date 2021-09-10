@@ -5,13 +5,14 @@ import { signIn, signOut, useSession } from 'next-auth/client';
 const AuthButton = () => {
   const [session] = useSession();
   const [isVisible, setIsVisible] = useState(false);
+  const url = 'http://localhost:3000/api/auth/signin/google' || 'https://tv-tracker-orpin.vercel.app/api/auth/callback/google';
   return (
     <>
       {!session ? (
         <Button
           onClick={() => signIn()}
           data-cy="login-button"
-          href="http://localhost:3000/api/auth/signin/google"
+          href={url}
         >
           Sign in
         </Button>
